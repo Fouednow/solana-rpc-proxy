@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify, make_response
-from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-CORS(app)
 
 SOLANA_RPC = "https://api.mainnet-beta.solana.com"
 
@@ -13,6 +11,17 @@ ALLOWED_METHODS = {
     "getAccountInfo",
     "getProgramAccounts",
 }
+
+@app.after_request
+def add_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
+
+@app.route("/", methods=["OPTIONS"])
+def preflight():
+    return "", 204
 
 @app.route("/", methods=["POST"])
 def proxy():

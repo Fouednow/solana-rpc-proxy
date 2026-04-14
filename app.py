@@ -10,6 +10,8 @@ ALLOWED_METHODS = {
     "getInflationReward",
     "getAccountInfo",
     "getProgramAccounts",
+    "getSignaturesForAddress",
+    "getTransaction",
 }
 
 @app.after_request
